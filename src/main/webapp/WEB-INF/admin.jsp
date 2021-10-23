@@ -22,7 +22,7 @@
 
 <div class="container p-3 my-3 bg-light text-dark">
 <h2>Ajout d'une promo sur un article</h2>
-<form>
+<form action='promotion' method='post'>
   <div class="form-check form-check-inline">
    <input type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
    <label for="pourcent">Pourcentage</label>
@@ -31,7 +31,7 @@
    <input type="radio" id="valeur" name="type_reduc" value="valeur">
    <label for="css">Valeur</label>
    </div>
-   <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
+   <input type="text" class="form-control" name="valueTest" id="valeur_reduc" placeholder="Réduction">
   <br>
   <div class="form-group">
     <label for="reference">Référence</label>
