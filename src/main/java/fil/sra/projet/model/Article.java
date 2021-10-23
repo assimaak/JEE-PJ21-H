@@ -1,4 +1,4 @@
-package fr.eservices.drive.model;
+package fil.sra.projet.model;
 
 public class Article {
 	

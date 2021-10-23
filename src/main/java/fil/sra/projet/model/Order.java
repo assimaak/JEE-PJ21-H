@@ -1,4 +1,4 @@
-package fr.eservices.drive.model;
+package fil.sra.projet.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import fr.eservices.drive.dao.Status;
+import fil.sra.projet.dao.Status;
 
 @Entity
 @Table(name="orders")

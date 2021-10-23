@@ -1,7 +1,5 @@
-import java.io.IOException;
-import java.io.PrintWriter;
+package fil.sra.projet.web;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
