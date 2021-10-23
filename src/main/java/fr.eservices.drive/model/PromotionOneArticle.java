@@ -4,19 +4,19 @@ public class PromotionOneArticle extends Promotion{
     String idArticle;
     int percentage;
 
-    public int getPercentage(){
-        return this.percentage;
+    public String getIdArticle() {
+        return idArticle;
     }
 
-    public void setPercentage(tmpPercentage){
-        this.percentage = tmpPercentage;
+    public void setIdArticle(String idArticle) {
+        this.idArticle = idArticle;
     }
 
-    public String getIdArticle(){
-        return this.idArticle;
+    public int getPercentage() {
+        return percentage;
     }
 
-    public void setIdArticle(tmpIdArticle){
-        this.idArticle = tmpIdArticle;
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
     }
 }

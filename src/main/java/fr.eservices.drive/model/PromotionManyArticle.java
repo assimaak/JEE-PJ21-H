@@ -1,20 +1,24 @@
 package fr.eservices.drive.model;
 
+import java.util.List;
+
 public class PromotionManyArticle extends Promotion{
     List<String> listIdArticle;
     int percentage;
 
-    public int getPercentage(){
-        return this.percentage;
+    public List<String> getListIdArticle() {
+        return listIdArticle;
     }
 
-    public void setPercentage(tmpPercentage){
-        this.percentage = tmpPercentage;
+    public void setListIdArticle(List<String> listIdArticle) {
+        this.listIdArticle = listIdArticle;
     }
 
-    public String getListIdArticle(){ return this.listIdArticle; }
+    public int getPercentage() {
+        return percentage;
+    }
 
-    public void setIdArticle(tmpIdArticle){
-        this.idArticle = tmpIdArticle;
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
     }
 }

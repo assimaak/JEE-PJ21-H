@@ -1,5 +1,7 @@
 package fr.eservices.drive.model;
 
+import java.util.Date;
+
 public abstract class Promotion {
 
     private String idPromotion;
