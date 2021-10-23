@@ -1,8 +1,11 @@
+<%@ page pageEncoding="UTF-8" %>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
   <title>Web Drive Admin</title>
-  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+  <meta http-equiv='Content-Type' content='text/html' />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,43 +25,45 @@
 
 <div class="container p-3 my-3 bg-light text-dark">
 <h2>Ajout d'une promo sur un article</h2>
-<form action='promotion' method='post'>
+<form:form modelAttribute="promotionOneArticle">
+    <br>
   <div class="form-check form-check-inline">
-   <input type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
-   <label for="pourcent">Pourcentage</label>
+   <form:input path="typeReduc" class="form-check-input" type="radio" id="pourcentage" name="typeReduc" value="pourcentage">
+   <label class="form-check-label" for="pourcent">Pourcentage</label>
    </div>
    <div class="form-check form-check-inline">
-   <input type="radio" id="valeur" name="type_reduc" value="valeur">
-   <label for="css">Valeur</label>
+   <form:input path="typeReduc" class="form-check-input" type="radio" id="valeur" name="typeReduc" value="valeur">
+   <label class="form-check-label" for="css">Valeur</label>
    </div>
-   <input type="text" class="form-control" name="valueTest" id="valeur_reduc" placeholder="Réduction">
+   <form:input path="value" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
   <br>
   <div class="form-group">
     <label for="reference">Référence</label>
-    <input type="text" class="form-control" id="reference" placeholder="Référence">
+    <form:input path="reference" type="text" class="form-control" id="reference" placeholder="Référence">
   </div>
   <br>
   <div class="input-daterange input-group" id="datepicker1">
   <label for="start">Promotion valide du </label>
-	    <input type="text" class="input-sm form-control" name="start" />
+	    <form:input path="dateStart" type="text" class="input-sm form-control" name="start" />
 	    <span class="input-group-addon"> au </span>
-	    <input type="text" class="input-sm form-control" name="end" />
+	    <form:input path="dateEnd" type="text" class="input-sm form-control" name="end" />
   </div>
   <br>
   <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</form:form>
 </div>
 
 <div class="container p-3 my-3 bg-light text-dark">
 <h2>Ajout d'une promo sur un ensemble d'articles</h2>
 <form>
+    <br>
   <div class="form-check form-check-inline">
-   <input type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
-   <label for="pourcent">Pourcentage</label>
+   <input class="form-check-input" type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
+   <label class="form-check-label" for="pourcent">Pourcentage</label>
    </div>
    <div class="form-check form-check-inline">
-   <input type="radio" id="valeur" name="type_reduc" value="valeur">
-   <label for="css">Valeur</label>
+   <input class="form-check-input" type="radio" id="valeur" name="type_reduc" value="valeur">
+   <label class="form-check-label" for="css">Valeur</label>
    </div>
    <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
   <br>
@@ -81,13 +86,14 @@
 <div class="container p-3 my-3 bg-light text-dark">
 <h2>Ajout d'une promo sur un panier</h2>
 <form>
+    <br>
   <div class="form-check form-check-inline">
-   <input type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
-   <label for="pourcent">Pourcentage</label>
+   <input class="form-check-input" type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
+   <label class="form-check-label" for="pourcent">Pourcentage</label>
    </div>
    <div class="form-check form-check-inline">
-   <input type="radio" id="valeur" name="type_reduc" value="valeur">
-   <label for="css">Valeur</label>
+   <input class="form-check-input" type="radio" id="valeur" name="type_reduc" value="valeur">
+   <label class="form-check-label" for="css">Valeur</label>
    </div>
    <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
   <br>
@@ -110,17 +116,18 @@
 <div class="container p-3 my-3 bg-light text-dark">
 <h2>Ajout d'une opération marketing</h2>
 <form>
+    <br>
   <div class="form-check form-check-inline">
-   <input type="radio" id="ungratuit" name="type_ope" value="ungratuit">
-   <label for="pourcent">X + 1 gratuit</label>
+   <input class="form-check-input" type="radio" id="ungratuit" name="type_ope" value="ungratuit">
+   <label class="form-check-label" for="pourcent">X + 1 gratuit</label>
    </div>
    <div class="form-check form-check-inline">
-   <input type="radio" id="deuxieme" name="type_ope" value="deuxieme">
-   <label for="css">Deuxième à -X%</label>
+   <input class="form-check-input" type="radio" id="deuxieme" name="type_ope" value="deuxieme">
+   <label class="form-check-label" for="css">Deuxième à -X%</label>
    </div>
    <div class="form-check form-check-inline">
-   <input type="radio" id="lot" name="type_ope" value="lot">
-   <label for="css">X à Y€</label>
+   <input class="form-check-input" type="radio" id="lot" name="type_ope" value="lot">
+   <label class="form-check-label" for="css">X à Y€</label>
    </div>
    <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
   <br>
