@@ -5,30 +5,50 @@ import java.util.Date;
 public abstract class Promotion {
 
     private String idPromotion;
-    private Date startDatePromotion;
-    private Date endDatePromotion;
+    private Date dateStart;
+    private Date dateEnd;
+    String typeReduc;
+    int value;
 
-    public String getIdPromotion() {
+    public Date getDateStart() {
+		return dateStart;
+	}
+
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public String getIdPromotion() {
         return idPromotion;
     }
+    
+    public String getTypeReduc() {
+		return typeReduc;
+	}
+    
+	public void setTypeReduc(String typeReduc) {
+		this.typeReduc = typeReduc;
+	}
 
     public void setIdPromotion(String idPromotion) {
         this.idPromotion = idPromotion;
     }
 
-    public Date getStartDatePromotion() {
-        return startDatePromotion;
-    }
 
-    public void setStartDatePromotion(Date startDatePromotion) {
-        this.startDatePromotion = startDatePromotion;
-    }
-
-    public Date getEndDatePromotion() {
-        return endDatePromotion;
-    }
-
-    public void setEndDatePromotion(Date endDatePromotion) {
-        this.endDatePromotion = endDatePromotion;
-    }
 }

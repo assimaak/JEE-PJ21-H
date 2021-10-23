@@ -3,8 +3,20 @@ package fil.sra.projet.model;
 public class PromotionOneArticle extends Promotion{
     String idArticle;
     int percentage;
+    String reference;
 
-    public String getIdArticle() {
+
+	public String getReference() {
+		return reference;
+	}
+
+
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public String getIdArticle() {
         return idArticle;
     }
 
