@@ -28,6 +28,14 @@
 </div>
 
 <div class="container p-3 my-3 bg-light text-dark">
+	<c:choose>
+		<c:when test = "${promotionOneArticle.typeReduc=='valeur'}">
+	       <c:set var = "signe" scope = "session" value = "${'€'}"/>
+	   </c:when>
+	   <c:when test = "${promotionOneArticle.typeReduc=='pourcentage'}">
+	       <c:set var = "signe" scope = "session" value = "${'%'}"/>
+	   </c:when>
+	</c:choose>
  	<c:choose>
 	<c:when test = "${response.status=='ERROR'}">
        <h2>Votre promo n'a pas été ajoutée.<h2>
@@ -35,7 +43,7 @@
    </c:when>
    <c:otherwise>
 	   <h2> Votre promo a bien été ajoutée. <h2>
-	   <p> L'article de référence "${promotionOneArticle.reference}" a désormais une promotion de "${promotionOneArticle.valeur}" </p>
+	   <p> L'article de référence "${promotionOneArticle.reference}" a désormais une promotion de ${promotionOneArticle.valeur}${signe} </p>
    </c:otherwise>
    </c:choose>
 	
