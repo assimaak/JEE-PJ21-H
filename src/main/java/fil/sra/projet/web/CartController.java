@@ -89,6 +89,7 @@ public class CartController {
 					cart.setArticles(tmp);
 					daoCart.store(id, cart);
 				} else {
+					for (int i =0;i<art.getQty();i++) {
 					if(daoCart.getCartContent(id).getArticles().containsKey(daoArt.find(art.getId()))) {
 						int a = daoCart.getCartContent(id).getArticles().get(daoArt.find(art.getId()));
 						daoCart.getCartContent(id).getArticles().put(daoArt.find(art.getId()),a+1);
@@ -96,6 +97,7 @@ public class CartController {
 					else {
 						daoCart.getCartContent(id).getArticles().put(daoArt.find(art.getId()),1);
 
+					}
 					}
 				}
 
