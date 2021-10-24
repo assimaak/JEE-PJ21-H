@@ -44,12 +44,18 @@ public class PromotionController {
 
 	@RequestMapping(path = "/forms.html", produces = "text/html")
 	public String getForms(Model model) throws DataException {
+		//créer liste de categories
+		//créer liste de marques
+		//créer liste de produits bientôt périmés
+		//model.addAttribute("categories",categories);
+		//model.addAttribute("marques", marques);
+		//model.addAttribute("perishables",perishables);
 		model.addAttribute("promotionOneArticle", new PromotionOneArticle());
 		return "admin";
 	}
 
 	@RequestMapping(value = "/promotionArticle.html", method = RequestMethod.POST, produces = "text/html")
-	public SimpleResponse addOnePromotion(@ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) {
+	public String addOnePromotion(Model model, @ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) {
 
 
 		SimpleResponse res = new SimpleResponse();
@@ -68,7 +74,7 @@ public class PromotionController {
 			} else {
 
 				promotionOneArticleRepository.save(promotionOneArticle);
-
+				
 				res.status = Status.OK;
 			}
 
@@ -76,7 +82,8 @@ public class PromotionController {
 			res.message = "error dataException";
 			res.status = Status.ERROR;
 		}
-		return res;
+		model.addAttribute("response",res);
+		return "promotionArticle";
 	}
 
 }

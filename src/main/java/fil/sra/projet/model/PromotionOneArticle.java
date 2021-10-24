@@ -37,14 +37,6 @@ public class PromotionOneArticle{// extends Promotion{
 
 
 
-
-
-
-
-
-
-
-
     public String getDateStart() {
         return dateStart;
     }
