@@ -61,16 +61,22 @@ public class PromotionController {
 		SimpleResponse res = new SimpleResponse();
 
 		try {
-			if(promotionOneArticle.getValue()>0){
-				res.message = "invalid value";
+			if(Integer.parseInt(promotionOneArticle.getValeur())<=0){
+				res.message = "valeur negative ou null";
 				res.status = Status.ERROR;
-			} else if (promotionOneArticleRepository.findByIdPromotion(promotionOneArticle.getIdPromotion())!=null) {
-				res.message = "id promotion already exists";
-				res.status = Status.ERROR;
-			} else if (daoArt.find(promotionOneArticle.getReference()) == null) {
+			}else if (daoArt.find(promotionOneArticle.getReference()) == null) {
 				res.message = "product doesn't exist";
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionOneArticle.getReference());
+			}else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
+				res.message = "pourcentage invalide (superieur a 100)";
+				res.status = Status.ERROR;
+			}else if(promotionOneArticle.getTypeReduc().equals("valeur") && daoArt.find(promotionOneArticle.getReference()).getPrice()-(Integer.parseInt(promotionOneArticle.getValeur())*100)<0){
+				res.message = "Prix negatif apres promotion";
+				res.status = Status.ERROR;
+			}	else if (promotionOneArticleRepository.findByIdPromotion(promotionOneArticle.getIdPromotion())!=null) {
+				res.message = "id promotion already exists";
+				res.status = Status.ERROR;
 			} else {
 
 				promotionOneArticleRepository.save(promotionOneArticle);

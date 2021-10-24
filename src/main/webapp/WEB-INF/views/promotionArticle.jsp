@@ -35,7 +35,7 @@
    </c:when>
    <c:otherwise>
 	   <h2> Votre promo a bien été ajoutée. <h2>
-	   <p> L'article de référence "${promotionOneArticle.reference}" a désormais une promotion de "${promotionOneArticle.percentage}" </p>
+	   <p> L'article de référence "${promotionOneArticle.reference}" a désormais une promotion de "${promotionOneArticle.valeur}" </p>
    </c:otherwise>
    </c:choose>
 	

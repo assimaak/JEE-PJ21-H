@@ -36,7 +36,7 @@
             <form:radiobutton path="typeReduc" value="valeur"/>
             <label class="form-check-label" for="css">Valeur</label>
         </div>
-        <form:input path="percentage" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction"/>
+        <form:input path="valeur" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction"/>
         <br>
         <div class="form-group">
             <label for="reference">Référence</label>

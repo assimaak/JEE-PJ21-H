@@ -2,11 +2,20 @@ package fil.sra.projet.model;
 
 import javax.persistence.*;
 
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // ajouter param
 @Entity
-public class PromotionOneArticle{// extends Promotion{
-    int percentage;
+public class PromotionOneArticle{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long idPromotion;
+    String dateStart = null;
+    String dateEnd = null;
+    String typeReduc = null;
+    String valeur;
     String reference;
+
+    public void setValeur(String valeur) { this.valeur = valeur; }
+
+    public String getValeur() { return valeur; }
 
 	public String getReference() {
 		return reference;
@@ -16,27 +25,6 @@ public class PromotionOneArticle{// extends Promotion{
 		this.reference = reference;
 	}
 
-    public int getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
-    }
-
-
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idPromotion;
-    private String dateStart = null;
-    private String dateEnd = null;
-    private String typeReduc = null;
-    private int value = 0;
-
-
-
     public String getDateStart() {
         return dateStart;
     }
@@ -45,20 +33,12 @@ public class PromotionOneArticle{// extends Promotion{
         return dateEnd;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public void setDateStart(String dateStart) {
         this.dateStart = dateStart;
     }
 
     public void setDateEnd(String dateEnd) {
         this.dateEnd = dateEnd;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public long getIdPromotion() {
