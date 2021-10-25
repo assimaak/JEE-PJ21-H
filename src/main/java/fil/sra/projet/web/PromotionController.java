@@ -90,6 +90,8 @@ public class PromotionController {
 				res.status = Status.ERROR;
 			} else {
 
+				System.out.println(promotionOneArticle);
+
 				promotionOneArticleRepository.save(promotionOneArticle);
 				
 				res.status = Status.OK;

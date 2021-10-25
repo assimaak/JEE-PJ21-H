@@ -3,6 +3,7 @@ package fil.sra.projet.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name="promotionOneArticleFirst")
 public class PromotionOneArticle{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
