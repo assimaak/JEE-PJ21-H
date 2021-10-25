@@ -25,7 +25,6 @@ x.data-qte="10";
 	</a>
 	<span class="glyphicon glyphicon-plus-sign addToCart"  
 	  data-ref="195420"></span>
-	<input class="myInput" type="text" value=15/>
 	</li>
 <li>
 	<a href="#">
@@ -36,7 +35,6 @@ x.data-qte="10";
 		
 	</a>
 	<span class="glyphicon glyphicon-plus-sign addToCart"data-qte ="5"  data-ref="165609"></span>
-		<input id="myInput" type="text" value=15/>
 	
 </li>
 
@@ -49,7 +47,6 @@ x.data-qte="10";
 	</a>
 	
 	<span class="glyphicon glyphicon-plus-sign addToCart"data-qte ="5"  data-ref="120574"></span>
-		<input id="myInput" type="text" value=15/>
 	
 </li>
 
@@ -62,7 +59,6 @@ x.data-qte="10";
 		
 	</a>
 	<span class="glyphicon glyphicon-plus-sign addToCart"data-qte ="5"  data-ref="10101010"></span>
-		<input class="myInput" type="text" value=15/>
 	
 </li>
 
@@ -74,7 +70,6 @@ x.data-qte="10";
 		Papier Cadeau <br/>
 	</a>
 	<span class="glyphicon glyphicon-plus-sign addToCart" data-qte ="5" data-ref="10101012"></span>
-			<input class="myInput" type="text" value=15/>
 	
 </li>
 </ul>
