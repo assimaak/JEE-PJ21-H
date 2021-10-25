@@ -2,6 +2,9 @@ package fil.sra.projet.web;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fil.sra.projet.dao.*;
 import fil.sra.projet.model.*;
@@ -55,24 +58,32 @@ public class PromotionController {
 	}
 
 	@RequestMapping(value = "/promotionArticle.html", method = RequestMethod.POST, produces = "text/html")
-	public String addOnePromotion(Model model, @ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) {
+	public String addOnePromotion(Model model, @ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) throws ParseException {
 
 
 		SimpleResponse res = new SimpleResponse();
-
+		
+		Date start = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionOneArticle.getDateStart() );
+		Date end = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionOneArticle.getDateEnd() );
+		
 		try {
 			if(Integer.parseInt(promotionOneArticle.getValeur())<=0){
-				res.message = "valeur negative ou null";
+				res.message = "valeur négative ou nulle";
 				res.status = Status.ERROR;
 			}else if (daoArt.find(promotionOneArticle.getReference()) == null) {
-				res.message = "product doesn't exist";
+				res.message = "le produit n'existe pas";
+				res.status = Status.ERROR;
+				System.out.println("id = "+promotionOneArticle.getReference());
+			}
+			else if (start.after(end)) {
+				res.message = "la date saisie est incorrecte";
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionOneArticle.getReference());
 			}else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
 				res.message = "pourcentage invalide (superieur a 100)";
 				res.status = Status.ERROR;
 			}else if(promotionOneArticle.getTypeReduc().equals("valeur") && daoArt.find(promotionOneArticle.getReference()).getPrice()-(Integer.parseInt(promotionOneArticle.getValeur())*100)<0){
-				res.message = "Prix negatif apres promotion";
+				res.message = "prix négatif après promotion";
 				res.status = Status.ERROR;
 			}	else if (promotionOneArticleRepository.findByIdPromotion(promotionOneArticle.getIdPromotion())!=null) {
 				res.message = "id promotion already exists";

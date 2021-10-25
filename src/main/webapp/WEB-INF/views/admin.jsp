@@ -26,6 +26,7 @@
 </div>
 
 <div class="container p-3 my-3 bg-light text-dark">
+    <h2>Ajout d'une promo sur un article</h2>
     <form:form action="promotionArticle.html" method ="POST" modelAttribute="promotionOneArticle">
         <br>
         <div class="form-check form-check-inline">
