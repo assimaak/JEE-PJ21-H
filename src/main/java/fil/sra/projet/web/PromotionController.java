@@ -142,10 +142,7 @@ public class PromotionController {
 			}else if(promotionGroupe.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionGroupe.getValeur())>100){
 				res.message = "pourcentage invalide (superieur a 100)";
 				res.status = Status.ERROR;
-			}else if(promotionGroupe.getTypeReduc().equals("valeur")){
-				res.message = "prix négatif après promotion";
-				res.status = Status.ERROR;
-			}	else if (promotionOneArticleRepository.findByIdPromotion(promotionGroupe.getIdPromotion())!=null) {
+			}else if (promotionOneArticleRepository.findByIdPromotion(promotionGroupe.getIdPromotion())!=null) {
 				res.message = "id promotion already exists";
 				res.status = Status.ERROR;
 			} else {

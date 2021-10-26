@@ -14,6 +14,9 @@ public class PromotionOneArticle{
     String valeur;
     String reference;
 
+    public PromotionOneArticle() {
+    }
+
     public void setValeur(String valeur) { this.valeur = valeur; }
 
     public String getValeur() { return valeur; }
