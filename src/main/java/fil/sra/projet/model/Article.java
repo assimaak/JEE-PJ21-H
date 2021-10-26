@@ -6,8 +6,17 @@ public class Article {
 		id,
 		name,
 		img,
-		cat_id;
+		cat_id,
+		bra_id;
 	
+	public String getBra_id() {
+		return bra_id;
+	}
+
+	public void setBra_id(String bra_id) {
+		this.bra_id = bra_id;
+	}
+
 	private int price;
 
 	public String getId() {

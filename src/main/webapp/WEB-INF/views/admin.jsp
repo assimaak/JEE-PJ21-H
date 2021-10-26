@@ -1,5 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +39,7 @@
             <form:radiobutton path="typeReduc" value="valeur"/>
             <label class="form-check-label" for="css">Valeur</label>
         </div>
-        <form:input path="valeur" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction"/>
+        <form:input path="valeur" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)"/>
 
         <br>
         <div class="form-group">
@@ -59,32 +61,41 @@
 
 <div class="container p-3 my-3 bg-light text-dark">
     <h2>Ajout d'une promo sur un ensemble d'articles</h2>
-    <form>
+    <form:form action="promotionArticles.html" method ="POST" modelAttribute="promotionGroup">
         <br>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
+            <form:radiobutton path="typeReduc" value="pourcentage"/>
             <label class="form-check-label" for="pourcent">Pourcentage</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="valeur" name="type_reduc" value="valeur">
+            <form:radiobutton path="typeReduc" value="valeur"/>
             <label class="form-check-label" for="css">Valeur</label>
         </div>
-        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
+        <form:input path="valeur" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)"/>
         <br>
         <div class="form-group">
-            <label for="reference">Référence</label>
-            <input type="text" class="form-control" id="reference" placeholder="Référence">
+             <label for="">Choisissez à quel groupe de produits appliquer la promo :</label>
+			  <form:select path="groupPromo" name="groupPromo" id="groupPromo">
+			  		<option value="">--Catégories--</option> 
+			  	<c:forEach items="${categories}" var="category">
+			    	<option value="c${category.id}"> ${category.name} </option> 
+			    </c:forEach>
+			  		<option value="">--Marques--</option> 
+			  	<c:forEach items="${brands}" var="brand">
+			    	<option value="b${brand.id}"> ${brand.name} </option> 
+			    </c:forEach>
+			  </form:select>
         </div>
         <br>
         <div class="input-daterange input-group" id="datepicker2">
             <label for="start">Promotion valide du </label>
-            <input type="text" class="input-sm form-control" name="start"/>
+            <form:input path="dateStart" name="start"/>
             <span class="input-group-addon"> au </span>
-            <input type="text" class="input-sm form-control" name="end"/>
+            <form:input path="dateEnd" name="end"/>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </form:form>
 
 </div>
 <div class="container p-3 my-3 bg-light text-dark">
@@ -99,7 +110,7 @@
             <input class="form-check-input" type="radio" id="valeur" name="type_reduc" value="valeur">
             <label class="form-check-label" for="css">Valeur</label>
         </div>
-        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
+        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)">
         <br>
         <div class="form-group">
             <label for="code">Code Promo à entrer par le client</label>
@@ -133,7 +144,7 @@
             <input class="form-check-input" type="radio" id="lot" name="type_ope" value="lot">
             <label class="form-check-label" for="css">X à Y€</label>
         </div>
-        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction">
+        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)">
         <br>
         <div class="form-group">
             <label for="reference">Référence</label>
