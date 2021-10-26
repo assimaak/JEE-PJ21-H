@@ -8,11 +8,20 @@ public class PromotionCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long idCode;
-    String dateStart = null;
-    String dateEnd = null;
-    String typeReduc = null;
-    String valeur;
-    String codePromo;
+    String typeReduc;
+    String valeur; //
+    String limite; //
+    String codePromo; //
+    String dateStart; //
+    String dateEnd; //
+
+    public String getLimite() {
+        return limite;
+    }
+
+    public void setLimite(String limite) {
+        this.limite = limite;
+    }
 
     public long getIdCode() {
         return idCode;

@@ -119,7 +119,7 @@
         <br>
         <div class="form-group">
             <label for="code">Code Promo à entrer par le client</label>
-            <from:input path="code" name="code" type="text" class="form-control" id="code" placeholder="Code promo">
+            <form:input path="codePromo" name="code" type="text" class="form-control" id="code" placeholder="Code promo"/>
         </div>
         <br>
         <div class="input-daterange input-group" id="datepicker3">

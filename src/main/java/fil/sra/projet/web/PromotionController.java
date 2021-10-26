@@ -9,6 +9,7 @@ import java.util.List;
 
 import fil.sra.projet.dao.*;
 import fil.sra.projet.model.*;
+import fil.sra.projet.repository.PromotionCodeRepository;
 import fil.sra.projet.repository.PromotionGroupeRepository;
 import fil.sra.projet.repository.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class PromotionController {
 	@Autowired
 	PromotionGroupeRepository promotionGroupeRepository;
 	@Autowired
+	PromotionCodeRepository promotionCodeRepository;
+	@Autowired
 	OrderRepository orderRepo;
 
 
@@ -52,6 +55,8 @@ public class PromotionController {
 	public String getForms(Model model) throws DataException {
 		model.addAttribute("promotionOneArticle", new PromotionOneArticle());
 		model.addAttribute("promotionGroupe", new PromotionGroupe());
+		model.addAttribute("promotionPanier", new PromotionCode());
+
 		//créer liste de categories
 		List<Category> categories = daoArt.getCategories();
 		//créer liste de marques
@@ -148,6 +153,45 @@ public class PromotionController {
 			} else {
 
 				promotionGroupeRepository.save(promotionGroupe);
+
+				res.status = Status.OK;
+			}
+
+		} catch (DataException e) {
+			res.message = "error dataException";
+			res.status = Status.ERROR;
+		}
+		model.addAttribute("response",res);
+		return "promotionArticle";
+	}
+
+	@RequestMapping(value = "/promotionPanier.html", method = RequestMethod.POST, produces = "text/html")
+	public String addCodePromotion(Model model, @ModelAttribute("promotionPanier") PromotionCode promotionCode) throws ParseException {
+
+		SimpleResponse res = new SimpleResponse();
+
+		Date start = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionCode.getDateStart() );
+		Date end = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionCode.getDateEnd() );
+
+		try {
+			if(Integer.parseInt(promotionCode.getValeur())<=0){
+				res.message = "valeur négative ou nulle";
+				res.status = Status.ERROR;
+			}else if(Integer.parseInt(promotionCode.getLimite())<0){
+				res.message = "valeur limite négative";
+				res.status = Status.ERROR;
+			} else if (start.after(end)) {
+				res.message = "la date saisie est incorrecte";
+				res.status = Status.ERROR;
+				System.out.println("code = "+promotionCode.getCodePromo());
+			}else if(promotionCode.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionCode.getValeur())>100){
+				res.message = "pourcentage invalide (superieur a 100)";
+				res.status = Status.ERROR;
+			}else if (promotionOneArticleRepository.findByIdPromotion(promotionCode.getIdCode())!=null) {
+				res.message = "id promotion already exists";
+				res.status = Status.ERROR;
+			} else {
+				promotionCodeRepository.save(promotionCode);
 
 				res.status = Status.OK;
 			}
