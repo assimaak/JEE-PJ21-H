@@ -208,7 +208,7 @@ public class PromotionController {
 			res.status = Status.ERROR;
 		}
 		model.addAttribute("response",res);
-		return "promotionArticle";
+		return "promotionCode";
 	}
 
 }
