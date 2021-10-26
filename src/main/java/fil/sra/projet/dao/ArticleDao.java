@@ -16,4 +16,8 @@ public interface ArticleDao {
 
 	List<Brand> getBrands();
 
+	Category getCategory(String substring);
+
+	Brand getBrand(String substring);
+
 }

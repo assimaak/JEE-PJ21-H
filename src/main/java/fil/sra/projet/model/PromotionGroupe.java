@@ -14,6 +14,13 @@ public class PromotionGroupe{
     String valeur;
     String groupPromo;
 
+    public boolean isBrand() {
+    	return groupPromo.startsWith("b");
+    }
+    
+    public boolean isCategory() {
+    	return groupPromo.startsWith("c");
+    }
     public long getIdPromotion() {
         return idPromotion;
     }
