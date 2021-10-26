@@ -100,32 +100,37 @@
 </div>
 <div class="container p-3 my-3 bg-light text-dark">
     <h2>Ajout d'une promo sur un panier</h2>
-    <form>
+    <form:form action="promotionPanier.html" method ="POST" modelAttribute="promotionPanier">
         <br>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="pourcentage" name="type_reduc" value="pourcentage">
+            <form:radiobutton path="typeReduc" value="pourcentage"/>
             <label class="form-check-label" for="pourcent">Pourcentage</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="valeur" name="type_reduc" value="valeur">
+            <form:radiobutton path="typeReduc" value="valeur"/>
             <label class="form-check-label" for="css">Valeur</label>
         </div>
-        <input type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)">
+        <form:input path="valeur" type="text" class="form-control" id="valeur_reduc" placeholder="Réduction (en % ou en cts)"/>
+        <br>
+        <div class="form-group">
+            <label for="limite">Limite de bénéficiaires</label>
+            <form:input path="limite" name ="limite" type="text" class="form-control" id="valeur_reduc" placeholder="Limite"/>
+        </div>
         <br>
         <div class="form-group">
             <label for="code">Code Promo à entrer par le client</label>
-            <input type="text" class="form-control" id="code" placeholder="Code promo">
+            <from:input path="code" name="code" type="text" class="form-control" id="code" placeholder="Code promo">
         </div>
         <br>
         <div class="input-daterange input-group" id="datepicker3">
             <label for="start">Promotion valide du </label>
-            <input type="text" class="input-sm form-control" name="start"/>
+            <form:input path="dateStart" name="start"/>
             <span class="input-group-addon"> au </span>
-            <input type="text" class="input-sm form-control" name="end"/>
+            <form:input path="dateEnd" name="end"/>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </form:form>
 </div>
 
 <div class="container p-3 my-3 bg-light text-dark">
