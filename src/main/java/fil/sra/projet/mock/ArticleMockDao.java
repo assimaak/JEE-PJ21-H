@@ -1,6 +1,8 @@
 package fil.sra.projet.mock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -82,4 +84,5 @@ public class ArticleMockDao implements ArticleDao {
 		return arts.get(id);
 	}
 
+	public List<Article> getListArticle() { return new ArrayList<Article>(arts.values()); }
 }
