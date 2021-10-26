@@ -1,6 +1,7 @@
 <%@include file="/WEB-INF/views/_header.jsp" %>
 
 <%@ page import="fil.sra.projet.model.Article" %>
+<%@ page import="fil.sra.projet.model.PromotionOneArticle" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 <%-- import required classes --%>
@@ -19,17 +20,37 @@
 
 
 <% List<Article> articles = (List<Article>) request.getAttribute("listArticle"); %>
+<% List<PromotionOneArticle> promotions = (List<PromotionOneArticle>) request.getAttribute("listPromotion"); %>
 <ul class="articles">
 	<%-- Iterate through articles ... --%>
 	<% for (Article a : articles) { %>
 		<li>
 			<a href="#">
 				<span class="price">
+					<% double priceFloat = Double.valueOf(a.getPrice())/100;%>
+					<% double priceRemiser = priceFloat;%>
+					<% for (PromotionOneArticle p : promotions){
+						if(p.getReference().equals(a.getId())){
+							if(p.getTypeReduc().equals("pourcentage")){
+								priceRemiser = priceRemiser*(1-(Double.parseDouble(p.getValeur())/100));
+							}
+							else{
+								priceRemiser = priceRemiser-(Double.parseDouble(p.getValeur())/100);
+							}
+						}
+					}%>
 
-					<% double priceFloat = Double.valueOf(a.getPrice())/100;
-						String res = String.format("%.2f", priceFloat).replace(".",",");
-					%>
-					<%= res %> &euro;
+					<%if(priceFloat==priceRemiser){
+						String res = String.format("%.2f", priceFloat).replace(".",",");%>
+						<%= res %> &euro;
+					<%}
+					else{
+						String res1 = String.format("%.2f", priceFloat).replace(".",",");
+						String res2 = String.format("%.2f", priceRemiser).replace(".",",");%>
+						<strike><%= res1 %> &euro;</strike>
+						<%= res2 %> &euro;
+					<%}%>
+
 				</span>
 
 				<img src="<%=a.getImg() %>"/><br/>
