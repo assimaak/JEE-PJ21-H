@@ -1,6 +1,7 @@
 package fil.sra.projet.web;
 
 import fil.sra.projet.dao.ArticleDao;
+import fil.sra.projet.dao.CartDao;
 import fil.sra.projet.dao.DataException;
 import fil.sra.projet.model.Article;
 import fil.sra.projet.model.PromotionGroupe;
@@ -30,11 +31,14 @@ public class sampleProductsController {
     PromotionRepository promotionOneArticleRepository;
     @Autowired
     PromotionGroupeRepository promotionGroupeRepository;
+    @Autowired
+    CartDao daoCart;
 
     @RequestMapping(path = "/products.html", produces = "text/html")
     public String getForms(Model model) throws DataException {
         List<Article> listArticle = daoArt.getListArticle();
         model.addAttribute("listArticle", listArticle);
+        model.addAttribute("cart", daoCart.getCartContent(1));
 
         Iterable<PromotionOneArticle> iterator = promotionOneArticleRepository.findAll();
         List<PromotionOneArticle> listPromotion = new ArrayList<>();

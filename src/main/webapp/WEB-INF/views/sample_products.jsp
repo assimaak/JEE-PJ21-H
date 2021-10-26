@@ -1,5 +1,5 @@
 <%@include file="/WEB-INF/views/_header.jsp" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="fil.sra.projet.model.Article" %>
 <%@ page import="fil.sra.projet.model.PromotionOneArticle" %>
 <%@ page import="java.util.*" %>
@@ -24,7 +24,7 @@
 <ul class="articles">
 	<%-- Iterate through articles ... --%>
 	<% for (Article a : articles) { %>
-		<li>
+		<li id="<%= a.getId() %>" >
 			<a href="#">
 				<span class="price">
 					<% double priceFloat = Double.valueOf(a.getPrice())/100;%>
@@ -56,7 +56,7 @@
 				<img src="<%=a.getImg() %>"/><br/>
 				<%= a.getName() %><br/>
 			</a>
-
+			
 			<span class="glyphicon glyphicon-plus-sign addToCart" data-ref="<%= a.getId() %>"></span>
 
 		</li>
