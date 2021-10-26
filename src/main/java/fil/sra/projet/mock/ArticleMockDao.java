@@ -109,6 +109,20 @@ public class ArticleMockDao implements ArticleDao {
 	
 	public List<Category> getCategories() { return categories;}
 	
+	public Category getCategory(String id) {
+		for (Category c: categories) {
+			if (c.getId().equals(id)) return c;
+		}
+		return null;
+	}
+	
+	public Brand getBrand(String id) {
+		for (Brand b: brands) {
+			if (b.getId().equals(id)) return b;
+		}
+		return null;
+	}
+	
 	public List<Brand> getBrands() { return brands;}
 	
 }

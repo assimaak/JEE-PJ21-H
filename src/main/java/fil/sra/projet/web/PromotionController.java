@@ -131,11 +131,17 @@ public class PromotionController {
 			if(Integer.parseInt(promotionGroupe.getValeur())<=0){
 				res.message = "valeur négative ou nulle";
 				res.status = Status.ERROR;
-			}else if (categories.contains(promotionGroupe.getGroupPromo())) {
+			}
+			else if (promotionGroupe.getGroupPromo().equals("")) {
+				res.message = "aucune marque/valeur n'a été renseignée";
+				res.status = Status.ERROR;
+				System.out.println("id = "+promotionGroupe.getGroupPromo());
+			}
+			else if (promotionGroupe.isCategory() && daoArt.getCategory(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
 				res.message = "la catégorie n'existe pas";
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionGroupe.getGroupPromo());
-			}else if (brands.contains(promotionGroupe.getGroupPromo())) {
+			}else if (promotionGroupe.isBrand() && daoArt.getBrand(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
 				res.message = "la marque n'existe pas";
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionGroupe.getGroupPromo());
@@ -162,7 +168,8 @@ public class PromotionController {
 			res.status = Status.ERROR;
 		}
 		model.addAttribute("response",res);
-		return "promotionArticle";
+		model.addAttribute("a", daoArt);
+		return "promotionArticles";
 	}
 
 	@RequestMapping(value = "/promotionPanier.html", method = RequestMethod.POST, produces = "text/html")

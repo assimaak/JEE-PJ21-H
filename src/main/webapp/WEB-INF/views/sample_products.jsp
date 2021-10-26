@@ -45,10 +45,13 @@
 					}%>
 
 					<%if(priceFloat==priceRemiser){
+						if (priceFloat >=0) priceFloat = 0;
 						String res = String.format("%.2f", priceFloat).replace(".",",");%>
 						<%= res %> &euro;
 					<%}
 					else{
+						if (priceRemiser <=0) priceRemiser = 0;
+						if (priceFloat <=0) priceFloat = 0;
 						String res1 = String.format("%.2f", priceFloat).replace(".",",");
 						String res2 = String.format("%.2f", priceRemiser).replace(".",",");%>
 						<strike><%= res1 %> &euro;</strike>
