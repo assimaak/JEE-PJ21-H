@@ -61,7 +61,7 @@
 
 <div class="container p-3 my-3 bg-light text-dark">
     <h2>Ajout d'une promo sur un ensemble d'articles</h2>
-    <form:form action="promotionArticles.html" method ="POST" modelAttribute="promotionGroup">
+    <form:form action="promotionArticles.html" method ="POST" modelAttribute="promotionGroupe">
         <br>
         <div class="form-check form-check-inline">
             <form:radiobutton path="typeReduc" value="pourcentage"/>
