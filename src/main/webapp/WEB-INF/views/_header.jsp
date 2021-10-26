@@ -15,6 +15,7 @@ java.util.List<String> jsList = new java.util.ArrayList<>();
   <link href="<%= ctxPath %>/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="<%= ctxPath %>/css/ie10-viewport-bug-workaround.css" rel="stylesheet"/>
   <link href="<%= ctxPath %>/css/main.css" rel="stylesheet"/>
+  <link href="<%= ctxPath %>/css/cart.css" type="text/css" media="all" rel="stylesheet"/>
 </head>
 <body>
 

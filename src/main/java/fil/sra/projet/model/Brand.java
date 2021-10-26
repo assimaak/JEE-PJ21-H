@@ -1,12 +1,16 @@
 package fil.sra.projet.model;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name="brand")
 public class Brand {
-	@Id
-	private int id;
+	private String id;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	private String name;
 
 	public String getName() {

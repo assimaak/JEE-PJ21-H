@@ -17,4 +17,4 @@
     </c:otherwise>
 </c:choose>
 
-<a class="btn btn-primary" href="cart/1/validate.html">Commander</a>
+<a class="btn btn-primary" href="../../cart/1/validate.html">Commander</a>

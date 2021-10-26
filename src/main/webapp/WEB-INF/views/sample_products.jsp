@@ -9,11 +9,11 @@
 
 <script language="javascript">
 //var x = document.getElementById("qte").value;
-function myfun(){
-var x= 	document.getElementsByClassName('glyphicon glyphicon-plus-sign addToCart')[0];
-x.data-qte="10";
+//function myfun(){
+//var x= 	document.getElementsByClassName('glyphicon glyphicon-plus-sign addToCart')[0];
+//x.data-qte="10";
 
-}
+//}
 
 </script>
 
@@ -36,11 +36,12 @@ x.data-qte="10";
 				<%= a.getName() %><br/>
 			</a>
 
-			<span class="glyphicon glyphicon-plus-sign addToCart"data-qte ="5"  data-ref="120574"></span>
+			<span class="glyphicon glyphicon-plus-sign addToCart" data-ref="<%= a.getId() %>"></span>
 
 		</li>
 
 	<%} %>
+
 </ul>
 
 <% 
