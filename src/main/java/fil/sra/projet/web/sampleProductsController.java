@@ -4,6 +4,7 @@ import fil.sra.projet.dao.ArticleDao;
 import fil.sra.projet.dao.CartDao;
 import fil.sra.projet.dao.DataException;
 import fil.sra.projet.model.Article;
+import fil.sra.projet.model.Cart;
 import fil.sra.projet.model.PromotionGroupe;
 import fil.sra.projet.model.PromotionOneArticle;
 import fil.sra.projet.repository.PromotionGroupeRepository;
@@ -13,13 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/client")

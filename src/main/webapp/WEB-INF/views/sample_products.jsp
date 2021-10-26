@@ -1,9 +1,11 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@include file="/WEB-INF/views/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="fil.sra.projet.model.Article" %>
 <%@ page import="fil.sra.projet.model.PromotionOneArticle" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
+<%@ page import="fil.sra.projet.model.Cart" %>
 <%-- import required classes --%>
 
 <h1>Les promos de la semaine !</h1>
@@ -21,6 +23,8 @@
 
 <% List<Article> articles = (List<Article>) request.getAttribute("listArticle"); %>
 <% List<PromotionOneArticle> promotions = (List<PromotionOneArticle>) request.getAttribute("listPromotion"); %>
+<% Cart cart = (Cart) request.getAttribute("cart"); %>
+<% Map<Article, Integer> mapCart = cart.getArticles(); %>
 <ul class="articles">
 	<%-- Iterate through articles ... --%>
 	<% for (Article a : articles) { %>
@@ -58,7 +62,9 @@
 			</a>
 			
 			<span class="glyphicon glyphicon-plus-sign addToCart" data-ref="<%= a.getId() %>"></span>
-
+			<% if( mapCart.get(a)!=null ) {%>
+				<p>Ajouté au panier</p>
+			<%}%>
 		</li>
 
 	<%} %>
