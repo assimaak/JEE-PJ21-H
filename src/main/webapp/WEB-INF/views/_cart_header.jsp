@@ -10,7 +10,8 @@
    
         <c:forEach items="${cart.articles}" var="art">
          <pre>
-      ${art.value} - ${art.key.name} : <fmt:formatNumber type="currency" pattern="#,##" value="${art.key.price}" currencySymbol="&euro;"/>      
+      ${art.value} - ${art.key.name} : <fmt:formatNumber type="currency"  value="${art.key.price/100}" currencySymbol="&euro;"/>      
+      
         </pre>
     </c:forEach>
     
