@@ -26,189 +26,208 @@ import fil.sra.projet.web.dto.SimpleResponse.Status;
 @RequestMapping(path = "/admin")
 public class PromotionController {
 
-	@Autowired
-	CartDao daoCart;
-	@Autowired
-	ArticleDao daoArt;
-	@Autowired
-	PromotionRepository promotionOneArticleRepository;
-	@Autowired
-	PromotionGroupeRepository promotionGroupeRepository;
-	@Autowired
-	PromotionCodeRepository promotionCodeRepository;
-	@Autowired
-	OrderRepository orderRepo;
+    @Autowired
+    CartDao daoCart;
+    @Autowired
+    ArticleDao daoArt;
+    @Autowired
+    PromotionRepository promotionOneArticleRepository;
+    @Autowired
+    PromotionGroupeRepository promotionGroupeRepository;
+    @Autowired
+    PromotionCodeRepository promotionCodeRepository;
+    @Autowired
+    OrderRepository orderRepo;
 
 
-	@ExceptionHandler(DataException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ResponseBody
-	public String dataExceptionHandler(Exception ex) {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PrintWriter w = new PrintWriter(out);
-		ex.printStackTrace(w);
-		w.close();
-		return "ERROR" + "<!--\n" + out.toString() + "\n-->";
-	}
+    @ExceptionHandler(DataException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public String dataExceptionHandler(Exception ex) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintWriter w = new PrintWriter(out);
+        ex.printStackTrace(w);
+        w.close();
+        return "ERROR" + "<!--\n" + out.toString() + "\n-->";
+    }
 
-	@RequestMapping(path = "/forms.html", produces = "text/html")
-	public String getForms(Model model) throws DataException {
-		model.addAttribute("promotionOneArticle", new PromotionOneArticle());
-		model.addAttribute("promotionGroupe", new PromotionGroupe());
-		model.addAttribute("promotionPanier", new PromotionCode());
+    @RequestMapping(path = "/forms.html", produces = "text/html")
+    public String getForms(Model model) throws DataException {
+        model.addAttribute("promotionOneArticle", new PromotionOneArticle());
+        model.addAttribute("promotionGroupe", new PromotionGroupe());
+        model.addAttribute("promotionPanier", new PromotionCode());
 
-		//créer liste de categories
-		List<Category> categories = daoArt.getCategories();
-		//créer liste de marques
-		List<Brand> brands = daoArt.getBrands();
-		System.out.println(brands.size());
-		//créer liste de produits bientôt périmés
-		//model.addAttribute("perishables",perishables);
-		model.addAttribute("categories", categories);
-		model.addAttribute("brands", brands);
-		return "admin";
-	}
+        //créer liste de categories
+        List<Category> categories = daoArt.getCategories();
+        //créer liste de marques
+        List<Brand> brands = daoArt.getBrands();
+        System.out.println(brands.size());
+        //créer liste de produits bientôt périmés
+        //model.addAttribute("perishables",perishables);
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
+        return "admin";
+    }
 
-	@RequestMapping(value = "/promotionArticle.html", method = RequestMethod.POST, produces = "text/html")
-	public String addOnePromotion(Model model, @ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) throws ParseException {
+    @RequestMapping(value = "/promotionArticle.html", method = RequestMethod.POST, produces = "text/html")
+    public String addOnePromotion(Model model, @ModelAttribute("promotionOneArticle") PromotionOneArticle promotionOneArticle) throws ParseException {
 
 
-		SimpleResponse res = new SimpleResponse();
-		
-		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateEnd() );
+        SimpleResponse res = new SimpleResponse();
 
-		try {
-			if(Integer.parseInt(promotionOneArticle.getValeur())<=0){
-				res.message = "valeur négative ou nulle";
-				res.status = Status.ERROR;
-			}else if (daoArt.find(promotionOneArticle.getReference()) == null) {
-				res.message = "le produit n'existe pas";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionOneArticle.getReference());
-			}
-			 else if (start.after(end)) {
-					res.message = "la date saisie est incorrecte";
-					res.status = Status.ERROR;
-				}
-			else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
-				res.message = "pourcentage invalide (superieur a 100)";
-				res.status = Status.ERROR;
-			}else if(promotionOneArticle.getTypeReduc().equals("valeur") && daoArt.find(promotionOneArticle.getReference()).getPrice()-(Integer.parseInt(promotionOneArticle.getValeur()))<0){
-				res.message = "prix négatif après promotion";
-				res.status = Status.ERROR;
-			}	else if (promotionOneArticleRepository.findByIdPromotion(promotionOneArticle.getIdPromotion())!=null) {
-				res.message = "id promotion already exists";
-				res.status = Status.ERROR;
-			} else {
+        Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateStart() );
+        Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateEnd() );
 
-				System.out.println(promotionOneArticle);
+        try {
+            if(Integer.parseInt(promotionOneArticle.getValeur())<=0){
+                res.message = "valeur négative ou nulle";
+                res.status = Status.ERROR;
+            }else if (daoArt.find(promotionOneArticle.getReference()) == null) {
+                res.message = "le produit n'existe pas";
+                res.status = Status.ERROR;
+                System.out.println("id = "+promotionOneArticle.getReference());
+            }
+            else if (start.after(end)) {
+                res.message = "la date saisie est incorrecte";
+                res.status = Status.ERROR;
+            }
+            else if(testDateBeforeToDay(promotionOneArticle.getDateEnd())){
+                res.message = "la date saisie est passé";
+                res.status = Status.ERROR;
+            }
+            else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
+                res.message = "pourcentage invalide (superieur a 100)";
+                res.status = Status.ERROR;
+            }else if(promotionOneArticle.getTypeReduc().equals("valeur") && daoArt.find(promotionOneArticle.getReference()).getPrice()-(Integer.parseInt(promotionOneArticle.getValeur()))<0){
+                res.message = "prix négatif après promotion";
+                res.status = Status.ERROR;
+            }	else if (promotionOneArticleRepository.findByIdPromotion(promotionOneArticle.getIdPromotion())!=null) {
+                res.message = "id promotion already exists";
+                res.status = Status.ERROR;
+            } else {
 
-				promotionOneArticleRepository.save(promotionOneArticle);
-				
-				res.status = Status.OK;
-			}
+                System.out.println(promotionOneArticle);
 
-		} catch (DataException e) {
-			res.message = "error dataException";
-			res.status = Status.ERROR;
-		}
-		model.addAttribute("response",res);
-		return "promotionArticle";
-	}
+                promotionOneArticleRepository.save(promotionOneArticle);
 
-	@RequestMapping(value = "/promotionArticles.html", method = RequestMethod.POST, produces = "text/html")
-	public String addGroupePromotion(Model model, @ModelAttribute("promotionGroupe") PromotionGroupe promotionGroupe) throws ParseException {
-		SimpleResponse res = new SimpleResponse();
+                res.status = Status.OK;
+            }
 
-		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateEnd() );
+        } catch (DataException e) {
+            res.message = "error dataException";
+            res.status = Status.ERROR;
+        }
+        model.addAttribute("response",res);
+        return "promotionArticle";
+    }
 
-		List<Category> categories = daoArt.getCategories();
-		List<Brand> brands = daoArt.getBrands();
+    @RequestMapping(value = "/promotionArticles.html", method = RequestMethod.POST, produces = "text/html")
+    public String addGroupePromotion(Model model, @ModelAttribute("promotionGroupe") PromotionGroupe promotionGroupe) throws ParseException {
+        SimpleResponse res = new SimpleResponse();
 
-		try {
-			if(Integer.parseInt(promotionGroupe.getValeur())<=0){
-				res.message = "valeur négative ou nulle";
-				res.status = Status.ERROR;
-			}
-			 else if (start.after(end)) {
-					res.message = "la date saisie est incorrecte";
-					res.status = Status.ERROR;
-				}
-			else if (promotionGroupe.getGroupPromo().equals("")) {
-				res.message = "aucune marque/valeur n'a été renseignée";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionGroupe.getGroupPromo());
-			}
-			else if (promotionGroupe.isCategory() && daoArt.getCategory(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
-				res.message = "la catégorie n'existe pas";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionGroupe.getGroupPromo());
-			}else if (promotionGroupe.isBrand() && daoArt.getBrand(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
-				res.message = "la marque n'existe pas";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionGroupe.getGroupPromo());
-			}
-			else if(promotionGroupe.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionGroupe.getValeur())>100){
-				res.message = "pourcentage invalide (superieur a 100)";
-				res.status = Status.ERROR;
-			}else if (promotionOneArticleRepository.findByIdPromotion(promotionGroupe.getIdPromotion())!=null) {
-				res.message = "id promotion already exists";
-				res.status = Status.ERROR;
-			} else {
+        Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateStart() );
+        Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateEnd() );
 
-				promotionGroupeRepository.save(promotionGroupe);
+        List<Category> categories = daoArt.getCategories();
+        List<Brand> brands = daoArt.getBrands();
 
-				res.status = Status.OK;
-			}
+        try {
+            if(Integer.parseInt(promotionGroupe.getValeur())<=0){
+                res.message = "valeur négative ou nulle";
+                res.status = Status.ERROR;
+            }
+            else if (start.after(end)) {
+                res.message = "la date saisie est incorrecte";
+                res.status = Status.ERROR;
+            }
+            else if (promotionGroupe.getGroupPromo().equals("")) {
+                res.message = "aucune marque/valeur n'a été renseignée";
+                res.status = Status.ERROR;
+                System.out.println("id = "+promotionGroupe.getGroupPromo());
+            }
+            else if (promotionGroupe.isCategory() && daoArt.getCategory(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
+                res.message = "la catégorie n'existe pas";
+                res.status = Status.ERROR;
+                System.out.println("id = "+promotionGroupe.getGroupPromo());
+            }else if (promotionGroupe.isBrand() && daoArt.getBrand(promotionGroupe.getGroupPromo().substring(1, 2))==null) {
+                res.message = "la marque n'existe pas";
+                res.status = Status.ERROR;
+                System.out.println("id = "+promotionGroupe.getGroupPromo());
+            }
+            else if(promotionGroupe.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionGroupe.getValeur())>100){
+                res.message = "pourcentage invalide (superieur a 100)";
+                res.status = Status.ERROR;
+            }else if (promotionOneArticleRepository.findByIdPromotion(promotionGroupe.getIdPromotion())!=null) {
+                res.message = "id promotion already exists";
+                res.status = Status.ERROR;
+            } else {
 
-		} catch (DataException e) {
-			res.message = "error dataException";
-			res.status = Status.ERROR;
-		}
-		model.addAttribute("response",res);
-		model.addAttribute("a", daoArt);
-		return "promotionArticles";
-	}
+                promotionGroupeRepository.save(promotionGroupe);
 
-	@RequestMapping(value = "/promotionPanier.html", method = RequestMethod.POST, produces = "text/html")
-	public String addCodePromotion(Model model, @ModelAttribute("promotionPanier") PromotionCode promotionCode) throws ParseException {
+                res.status = Status.OK;
+            }
 
-		SimpleResponse res = new SimpleResponse();
+        } catch (DataException e) {
+            res.message = "error dataException";
+            res.status = Status.ERROR;
+        }
+        model.addAttribute("response",res);
+        model.addAttribute("a", daoArt);
+        return "promotionArticles";
+    }
 
-		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateEnd() );
+    @RequestMapping(value = "/promotionPanier.html", method = RequestMethod.POST, produces = "text/html")
+    public String addCodePromotion(Model model, @ModelAttribute("promotionPanier") PromotionCode promotionCode) throws ParseException {
 
-		try {
-			if(Integer.parseInt(promotionCode.getValeur())<=0){
-				res.message = "valeur négative ou nulle";
-				res.status = Status.ERROR;
-			}else if(Integer.parseInt(promotionCode.getLimite())<0){
-				res.message = "valeur limite négative";
-				res.status = Status.ERROR;
-			} else if (start.after(end)) {
-				res.message = "la date saisie est incorrecte";
-				res.status = Status.ERROR;
-				System.out.println("code = "+promotionCode.getCodePromo());
-			}else if(promotionCode.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionCode.getValeur())>100){
-				res.message = "pourcentage invalide (superieur a 100)";
-				res.status = Status.ERROR;
-			}else if (promotionOneArticleRepository.findByIdPromotion(promotionCode.getIdCode())!=null) {
-				res.message = "id promotion already exists";
-				res.status = Status.ERROR;
-			} else {
-				promotionCodeRepository.save(promotionCode);
+        SimpleResponse res = new SimpleResponse();
 
-				res.status = Status.OK;
-			}
+        Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateStart() );
+        Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateEnd() );
 
-		} catch (DataException e) {
-			res.message = "error dataException";
-			res.status = Status.ERROR;
-		}
-		model.addAttribute("response",res);
-		return "promotionCode";
-	}
+        try {
+            if(Integer.parseInt(promotionCode.getValeur())<=0){
+                res.message = "valeur négative ou nulle";
+                res.status = Status.ERROR;
+            }else if(Integer.parseInt(promotionCode.getLimite())<0){
+                res.message = "valeur limite négative";
+                res.status = Status.ERROR;
+            } else if (start.after(end)) {
+                res.message = "la date saisie est incorrecte";
+                res.status = Status.ERROR;
+                System.out.println("code = "+promotionCode.getCodePromo());
+            }else if(promotionCode.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionCode.getValeur())>100){
+                res.message = "pourcentage invalide (superieur a 100)";
+                res.status = Status.ERROR;
+            }else if (promotionOneArticleRepository.findByIdPromotion(promotionCode.getIdCode())!=null) {
+                res.message = "id promotion already exists";
+                res.status = Status.ERROR;
+            } else {
+                promotionCodeRepository.save(promotionCode);
+
+                res.status = Status.OK;
+            }
+
+        } catch (DataException e) {
+            res.message = "error dataException";
+            res.status = Status.ERROR;
+        }
+        model.addAttribute("response",res);
+        return "promotionCode";
+    }
+
+    private boolean testDateBeforeToDay(String sDateEnd){
+        try {
+            Date dateNow = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf((new SimpleDateFormat("dd-MM-yyyy")).format(new Date())));
+
+            Date dateEnd = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(sDateEnd));
+
+            if(dateNow.compareTo(dateEnd)>=0){
+                return true;
+            }
+        }catch (ParseException e) {
+            System.out.println("Error parse String to date");
+        }
+        return false;
+    }
 
 }
