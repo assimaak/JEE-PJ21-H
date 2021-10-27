@@ -122,7 +122,7 @@ public class sampleProductsController {
 
             Date dateEnd = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(sDateEnd));
            
-            if((dateNow.after(dateStart) && dateNow.before(dateEnd))){
+            if((dateNow.compareTo(dateStart) != dateNow.compareTo(dateEnd))||dateNow.compareTo(dateStart)==0){
                 return true;
             }
         }catch (ParseException e) {

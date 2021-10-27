@@ -30,7 +30,7 @@
 <div class="container p-3 my-3 bg-light text-dark">
 	<c:choose>
 		<c:when test = "${promotionOneArticle.typeReduc=='valeur'}">
-	       <c:set var = "signe" scope = "session" value = "${'€'}"/>
+	       <c:set var = "signe" scope = "session" value = "${'cts'}"/>
 	   </c:when>
 	   <c:when test = "${promotionOneArticle.typeReduc=='pourcentage'}">
 	       <c:set var = "signe" scope = "session" value = "${'%'}"/>
