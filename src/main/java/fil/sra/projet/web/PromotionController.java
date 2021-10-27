@@ -91,7 +91,7 @@ public class PromotionController {
                 res.message = "la date saisie est incorrecte";
                 res.status = Status.ERROR;
             }
-            else if(testDateBeforeToDay(promotionOneArticle.getDateEnd())){
+            else if(!testDateBeforeToDay(promotionOneArticle.getDateEnd())){
                 res.message = "la date saisie est passé";
                 res.status = Status.ERROR;
             }
@@ -138,6 +138,10 @@ public class PromotionController {
             }
             else if (start.after(end)) {
                 res.message = "la date saisie est incorrecte";
+                res.status = Status.ERROR;
+            }
+            else if(!testDateBeforeToDay(promotionGroupe.getDateEnd())){
+                res.message = "la date saisie est passé";
                 res.status = Status.ERROR;
             }
             else if (promotionGroupe.getGroupPromo().equals("")) {
@@ -195,7 +199,11 @@ public class PromotionController {
                 res.message = "la date saisie est incorrecte";
                 res.status = Status.ERROR;
                 System.out.println("code = "+promotionCode.getCodePromo());
-            }else if(promotionCode.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionCode.getValeur())>100){
+            }else if(!testDateBeforeToDay(promotionCode.getDateEnd())){
+                res.message = "la date saisie est passé";
+                res.status = Status.ERROR;
+            }
+            else if(promotionCode.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionCode.getValeur())>100){
                 res.message = "pourcentage invalide (superieur a 100)";
                 res.status = Status.ERROR;
             }else if (promotionOneArticleRepository.findByIdPromotion(promotionCode.getIdCode())!=null) {
@@ -221,7 +229,12 @@ public class PromotionController {
 
             Date dateEnd = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(sDateEnd));
 
-            if(dateNow.compareTo(dateEnd)>=0){
+            System.out.println(dateNow.compareTo(dateEnd));
+            System.out.println(dateNow);
+            System.out.println(dateEnd);
+
+            if(dateNow.compareTo(dateEnd)<=0){
+                System.out.println("toto");
                 return true;
             }
         }catch (ParseException e) {
