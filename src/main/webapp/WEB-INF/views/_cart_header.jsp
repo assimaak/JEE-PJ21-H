@@ -17,5 +17,12 @@
     
     </c:otherwise>
 </c:choose>
-
-<a class="btn btn-primary" href="../../cart/1/validate.html">Commander</a>
+<form action="1/validate.html" method="POST" class="form-example">
+  <div class="form-example">
+    <label for="code">Code promo (optionnel) </label>
+    <input type="text" name="code" id="code">
+  </div>
+  <div class="form-example">
+    <input class="btn btn-primary" type="submit" value="Commander">
+  </div>
+</form>

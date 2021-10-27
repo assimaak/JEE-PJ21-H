@@ -5,14 +5,19 @@ import fil.sra.projet.dao.CartDao;
 import fil.sra.projet.dao.DataException;
 import fil.sra.projet.model.Article;
 import fil.sra.projet.model.Cart;
+import fil.sra.projet.model.PromotionCode;
 import fil.sra.projet.model.PromotionGroupe;
 import fil.sra.projet.model.PromotionOneArticle;
+import fil.sra.projet.repository.PromotionCodeRepository;
 import fil.sra.projet.repository.PromotionGroupeRepository;
 import fil.sra.projet.repository.PromotionRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +36,8 @@ public class sampleProductsController {
     PromotionRepository promotionOneArticleRepository;
     @Autowired
     PromotionGroupeRepository promotionGroupeRepository;
+    @Autowired
+    PromotionCodeRepository promotionCodeRepository;
     @Autowired
     CartDao daoCart;
 
@@ -74,8 +81,38 @@ public class sampleProductsController {
         }
 
         model.addAttribute("listPromotion", listPromotionValide);
+        
         return "sample_products";
     }
+    
+
+	@RequestMapping("/{id}/validate.html")
+	public String validateCart(@PathVariable(name="id") int id, Model model,@RequestParam String code) throws DataException, ParseException {
+		
+        Cart cart = daoCart.getCartContent(id);
+        if(cart == null) {
+        	throw new DataException("cart no found");
+        }
+        int amount = 0;
+        for (Article article: daoArt.getListArticle()) {
+        	if(cart.getArticles().containsKey(article)) {
+                amount += article.getPrice()*cart.getArticles().get(article);
+        	}
+        }
+        Iterable<PromotionCode> pc = promotionCodeRepository.findAll();
+		for(PromotionCode p : pc) {
+			if (p.getCodePromo().equals(code)) {
+				System.out.println(p.getCodePromo());
+				Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( p.getDateStart() );
+				Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( p.getDateEnd() );
+				Date now = new Date();
+				if ( now.after(start) && now.before(end))	model.addAttribute("codepromo",p);
+			}
+		}
+        model.addAttribute("total",amount);
+        model.addAttribute("cart",cart);
+		return "validate";
+	}
 
     private boolean testDateValide(String sDateStart, String sDateEnd){
         try {
@@ -84,7 +121,8 @@ public class sampleProductsController {
             Date dateStart = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(sDateStart));
 
             Date dateEnd = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(sDateEnd));
-            if((dateNow.compareTo(dateStart) != dateNow.compareTo(dateEnd))||dateNow.compareTo(dateStart)==0){
+           
+            if((dateNow.after(dateStart) && dateNow.before(dateEnd))){
                 return true;
             }
         }catch (ParseException e) {

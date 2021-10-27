@@ -75,8 +75,8 @@ public class PromotionController {
 
 		SimpleResponse res = new SimpleResponse();
 		
-		Date start = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionOneArticle.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionOneArticle.getDateEnd() );
+		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateStart() );
+		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionOneArticle.getDateEnd() );
 
 		try {
 			if(Integer.parseInt(promotionOneArticle.getValeur())<=0){
@@ -87,11 +87,11 @@ public class PromotionController {
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionOneArticle.getReference());
 			}
-			else if (start.after(end)) {
-				res.message = "la date saisie est incorrecte";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionOneArticle.getReference());
-			}else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
+			 else if (start.after(end)) {
+					res.message = "la date saisie est incorrecte";
+					res.status = Status.ERROR;
+				}
+			else if(promotionOneArticle.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionOneArticle.getValeur())>100){
 				res.message = "pourcentage invalide (superieur a 100)";
 				res.status = Status.ERROR;
 			}else if(promotionOneArticle.getTypeReduc().equals("valeur") && daoArt.find(promotionOneArticle.getReference()).getPrice()-(Integer.parseInt(promotionOneArticle.getValeur()))<0){
@@ -121,8 +121,8 @@ public class PromotionController {
 	public String addGroupePromotion(Model model, @ModelAttribute("promotionGroupe") PromotionGroupe promotionGroupe) throws ParseException {
 		SimpleResponse res = new SimpleResponse();
 
-		Date start = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionGroupe.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionGroupe.getDateEnd() );
+		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateStart() );
+		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionGroupe.getDateEnd() );
 
 		List<Category> categories = daoArt.getCategories();
 		List<Brand> brands = daoArt.getBrands();
@@ -132,6 +132,10 @@ public class PromotionController {
 				res.message = "valeur négative ou nulle";
 				res.status = Status.ERROR;
 			}
+			 else if (start.after(end)) {
+					res.message = "la date saisie est incorrecte";
+					res.status = Status.ERROR;
+				}
 			else if (promotionGroupe.getGroupPromo().equals("")) {
 				res.message = "aucune marque/valeur n'a été renseignée";
 				res.status = Status.ERROR;
@@ -146,11 +150,7 @@ public class PromotionController {
 				res.status = Status.ERROR;
 				System.out.println("id = "+promotionGroupe.getGroupPromo());
 			}
-			else if (start.after(end)) {
-				res.message = "la date saisie est incorrecte";
-				res.status = Status.ERROR;
-				System.out.println("id = "+promotionGroupe.getGroupPromo());
-			}else if(promotionGroupe.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionGroupe.getValeur())>100){
+			else if(promotionGroupe.getTypeReduc().equals("pourcentage") && Integer.parseInt(promotionGroupe.getValeur())>100){
 				res.message = "pourcentage invalide (superieur a 100)";
 				res.status = Status.ERROR;
 			}else if (promotionOneArticleRepository.findByIdPromotion(promotionGroupe.getIdPromotion())!=null) {
@@ -177,8 +177,8 @@ public class PromotionController {
 
 		SimpleResponse res = new SimpleResponse();
 
-		Date start = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionCode.getDateStart() );
-		Date end = new SimpleDateFormat( "dd-mm-yyyy" ).parse( promotionCode.getDateEnd() );
+		Date start = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateStart() );
+		Date end = new SimpleDateFormat( "dd-MM-yyyy" ).parse( promotionCode.getDateEnd() );
 
 		try {
 			if(Integer.parseInt(promotionCode.getValeur())<=0){

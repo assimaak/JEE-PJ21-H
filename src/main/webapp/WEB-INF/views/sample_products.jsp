@@ -45,7 +45,7 @@
 					}%>
 
 					<%if(priceFloat==priceRemiser){
-						if (priceFloat >=0) priceFloat = 0;
+						if (priceFloat <=0) priceFloat = 0;
 						String res = String.format("%.2f", priceFloat).replace(".",",");%>
 						<%= res %> &euro;
 					<%}
