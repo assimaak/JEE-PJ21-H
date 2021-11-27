@@ -1,14 +1,7 @@
 package fil.sra.projet.model;
 
-//import javax.persistence.*;
-
-//@Entity
-//@Table(name="articles")
-
 public class Article {
-//      @Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	long id;
+	
 	private String
 		id,
 		name,
@@ -65,13 +58,6 @@ public class Article {
 	public void setCat_id(String cat_id) {
 		this.cat_id = cat_id;
 	}
-	
-//      public void setId(Long id) {
-//        	this.id = id;
-//	}
-//	@Id
-//	public Long getId() {
-//		return id;
-//	}
+
 	
 }
